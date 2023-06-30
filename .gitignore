@@ -1,0 +1,9 @@
+logs
+build
+.idea
+.venv
+main.spec
+__pycache__
+*.pdf
+*.html
+*.xml
