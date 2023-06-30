@@ -1,0 +1,5 @@
+robotframework
+chromedriver-autoinstaller
+robotframework-seleniumlibrary
+selenium==4.9.0
+robotframework-csvlibrary

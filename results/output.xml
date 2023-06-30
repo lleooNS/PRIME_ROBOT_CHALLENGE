@@ -1,0 +1,870 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1 (Python 3.8.3 on win32)" generated="20230630 14:55:20.793" rpa="false" schemaversion="4">
+<suite id="s1" name="Home" source="C:\RPA_PYTHON\REPOSITORIOS\ROBOT\PRIME_ROBOT_CHALLENGE\suites\home\home.robot">
+<test id="s1-t1" name="Realizar o desafio" line="5">
+<kw name="Abrir o site" library="home_page">
+<kw name="Validar Diretorio Downloads" library="helpers">
+<status status="PASS" starttime="20230630 14:55:21.384" endtime="20230630 14:55:21.384"/>
+</kw>
+<kw name="Retornar Full Path Downloads" library="helpers">
+<var>${downloadPath}</var>
+<msg timestamp="20230630 14:55:21.385" level="INFO">${downloadPath} = C:\RPA_PYTHON\REPOSITORIOS\ROBOT\PRIME_ROBOT_CHALLENGE\downloads</msg>
+<status status="PASS" starttime="20230630 14:55:21.385" endtime="20230630 14:55:21.385"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${prefs}</var>
+<arg>download.default_directory=${downloadPath}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20230630 14:55:21.386" level="INFO">${prefs} = {'download.default_directory': 'C:\\RPA_PYTHON\\REPOSITORIOS\\ROBOT\\PRIME_ROBOT_CHALLENGE\\downloads'}</msg>
+<status status="PASS" starttime="20230630 14:55:21.385" endtime="20230630 14:55:21.386"/>
+</kw>
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>url=${geral.URL}</arg>
+<arg>browser=${geral.BROWSER}</arg>
+<arg>options=add_argument("--disable-web-security");add_argument("--start-maximized");add_experimental_option("detach", True);add_experimental_option('prefs', ${prefs})</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<msg timestamp="20230630 14:55:21.388" level="INFO">Opening browser 'chrome' to base url 'https://cnes.datasus.gov.br/pages/estabelecimentos/consulta.jsp'.</msg>
+<msg timestamp="20230630 14:55:21.393" level="INFO">Executing: C:\RPA_PYTHON\REPOSITORIOS\ROBOT\PRIME_ROBOT_CHALLENGE\.venv\lib\site-packages\selenium\webdriver\common\windows\selenium-manager.exe --browser chrome --output json</msg>
+<status status="PASS" starttime="20230630 14:55:21.386" endtime="20230630 14:55:33.273"/>
+</kw>
+<status status="PASS" starttime="20230630 14:55:21.384" endtime="20230630 14:55:33.273"/>
+</kw>
+<kw name="Percorrer arquivo csv" library="home_page">
+<kw name="Get File" library="OperatingSystem">
+<var>${csv}</var>
+<arg>${geral.NOME_ARQUIVO}</arg>
+<doc>Returns the contents of a specified file.</doc>
+<msg timestamp="20230630 14:55:33.298" level="INFO" html="true">Getting file '&lt;a href="file://C:\RPA_PYTHON\REPOSITORIOS\ROBOT\PRIME_ROBOT_CHALLENGE\LOCALIDADES.csv"&gt;C:\RPA_PYTHON\REPOSITORIOS\ROBOT\PRIME_ROBOT_CHALLENGE\LOCALIDADES.csv&lt;/a&gt;'.</msg>
+<msg timestamp="20230630 14:55:33.302" level="INFO">${csv} = UF,MUNICIPIO
+BA,Salvador
+RJ,Rio de Janeiro
+SP,São Paulo
+MG,Belo Horizonte
+PR,Curitiba
+</msg>
+<status status="PASS" starttime="20230630 14:55:33.296" endtime="20230630 14:55:33.302"/>
+</kw>
+<kw name="Create List" library="BuiltIn">
+<var>@{read}</var>
+<arg>${csv}</arg>
+<doc>Returns a list containing given items.</doc>
+<msg timestamp="20230630 14:55:33.303" level="INFO">@{read} = [ UF,MUNICIPIO
+BA,Salvador
+RJ,Rio de Janeiro
+SP,São Paulo
+MG,Belo Horizonte
+PR,Curitiba
+ ]</msg>
+<status status="PASS" starttime="20230630 14:55:33.302" endtime="20230630 14:55:33.303"/>
+</kw>
+<kw name="Split To Lines" library="String">
+<var>@{lines}</var>
+<arg>@{read}</arg>
+<arg>1</arg>
+<doc>Splits the given string to lines.</doc>
+<msg timestamp="20230630 14:55:33.304" level="INFO">5 lines returned</msg>
+<msg timestamp="20230630 14:55:33.304" level="INFO">@{lines} = [ BA,Salvador | RJ,Rio de Janeiro | SP,São Paulo | MG,Belo Horizonte | PR,Curitiba ]</msg>
+<status status="PASS" starttime="20230630 14:55:33.304" endtime="20230630 14:55:33.304"/>
+</kw>
+<for flavor="IN">
+<var>${line}</var>
+<value>@{lines}</value>
+<iter>
+<var name="${line}">BA,Salvador</var>
+<kw name="Split String" library="String">
+<var>@{split}</var>
+<arg>${line}</arg>
+<arg>,</arg>
+<doc>Splits the ``string`` using ``separator`` as a delimiter string.</doc>
+<msg timestamp="20230630 14:55:33.308" level="INFO">@{split} = [ BA | Salvador ]</msg>
+<status status="PASS" starttime="20230630 14:55:33.306" endtime="20230630 14:55:33.308"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${column_0}</var>
+<arg>${split}[0]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230630 14:55:33.310" level="INFO">${column_0} = BA</msg>
+<status status="PASS" starttime="20230630 14:55:33.309" endtime="20230630 14:55:33.310"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${column_1}</var>
+<arg>${split}[1]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230630 14:55:33.312" level="INFO">${column_1} = Salvador</msg>
+<status status="PASS" starttime="20230630 14:55:33.311" endtime="20230630 14:55:33.312"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Executando o estado = ${column_0}, município = ${column_1} ...${\n}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:55:33.312" endtime="20230630 14:55:33.335"/>
+</kw>
+<kw name="Controlar execução" library="home_page">
+<arg>${column_0}</arg>
+<arg>${column_1}</arg>
+<kw name="Selecionar estado" library="home_page">
+<arg>${uf}</arg>
+<kw name="Wait Until Element Is Enabled" library="SeleniumLibrary">
+<arg>xpath=${home.select_estado_xpath}</arg>
+<doc>Waits until the element ``locator`` is enabled.</doc>
+<status status="PASS" starttime="20230630 14:55:33.341" endtime="20230630 14:55:33.677"/>
+</kw>
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>xpath=${home.select_estado_xpath}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20230630 14:55:33.678" endtime="20230630 14:55:33.798"/>
+</kw>
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>xpath=${home.select_estado_xpath}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:33.803" level="INFO">Clicking element 'xpath=/html/body/div[2]/main/div/div[2]/div/form[1]/div[2]/div[1]/div/select'.</msg>
+<status status="PASS" starttime="20230630 14:55:33.799" endtime="20230630 14:55:34.103"/>
+</kw>
+<kw name="Select From List By Label" library="SeleniumLibrary">
+<arg>xpath=${home.select_estado_xpath}</arg>
+<arg>${home.${uf}}</arg>
+<doc>Selects options from selection list ``locator`` by ``labels``.</doc>
+<msg timestamp="20230630 14:55:34.112" level="INFO">Selecting options from selection list 'xpath=/html/body/div[2]/main/div/div[2]/div/form[1]/div[2]/div[1]/div/select' by label BAHIA.</msg>
+<status status="PASS" starttime="20230630 14:55:34.105" endtime="20230630 14:55:34.871"/>
+</kw>
+<status status="PASS" starttime="20230630 14:55:33.339" endtime="20230630 14:55:34.873"/>
+</kw>
+<kw name="Selecionar município" library="home_page">
+<arg>${municipio}</arg>
+<kw name="Wait Until Element Is Enabled" library="SeleniumLibrary">
+<arg>xpath=${home.select_municipio_xpath}</arg>
+<doc>Waits until the element ``locator`` is enabled.</doc>
+<status status="PASS" starttime="20230630 14:55:34.877" endtime="20230630 14:55:35.632"/>
+</kw>
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>xpath=${home.select_municipio_xpath}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20230630 14:55:35.632" endtime="20230630 14:55:35.747"/>
+</kw>
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>xpath=${home.select_municipio_xpath}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:35.752" level="INFO">Clicking element 'xpath=/html/body/div[2]/main/div/div[2]/div/form[1]/div[2]/div[2]/div/select'.</msg>
+<status status="PASS" starttime="20230630 14:55:35.748" endtime="20230630 14:55:36.330"/>
+</kw>
+<kw name="Select From List By Label" library="SeleniumLibrary">
+<arg>xpath=${home.select_municipio_xpath}</arg>
+<arg>${home.${municipio.replace(" ", "_")}}</arg>
+<doc>Selects options from selection list ``locator`` by ``labels``.</doc>
+<msg timestamp="20230630 14:55:36.349" level="INFO">Selecting options from selection list 'xpath=/html/body/div[2]/main/div/div[2]/div/form[1]/div[2]/div[2]/div/select' by label SALVADOR.</msg>
+<status status="PASS" starttime="20230630 14:55:36.332" endtime="20230630 14:55:37.013"/>
+</kw>
+<status status="PASS" starttime="20230630 14:55:34.874" endtime="20230630 14:55:37.013"/>
+</kw>
+<kw name="Clicar no botão pesquisar" library="home_page">
+<kw name="Wait Until Element Is Enabled" library="SeleniumLibrary">
+<arg>xpath=${home.btn_pesquisar_xpath}</arg>
+<doc>Waits until the element ``locator`` is enabled.</doc>
+<status status="PASS" starttime="20230630 14:55:37.017" endtime="20230630 14:55:37.282"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>xpath=${home.btn_pesquisar_xpath}</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:37.289" level="INFO">Clicking button 'xpath=/html/body/div[2]/main/div/div[2]/div/form[2]/div/button'.</msg>
+<status status="PASS" starttime="20230630 14:55:37.284" endtime="20230630 14:55:37.711"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>10s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230630 14:55:47.717" level="INFO">Slept 10 seconds</msg>
+<status status="PASS" starttime="20230630 14:55:37.713" endtime="20230630 14:55:47.717"/>
+</kw>
+<status status="PASS" starttime="20230630 14:55:37.015" endtime="20230630 14:55:47.717"/>
+</kw>
+<for flavor="IN RANGE">
+<var>${index}</var>
+<value>1</value>
+<value>5</value>
+<iter>
+<var name="${index}">1</var>
+<kw name="Percorrer tabela" library="home_page">
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>xpath=${home.tabela_xpath}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20230630 14:55:47.718" endtime="20230630 14:55:47.747"/>
+</kw>
+<kw name="Get Element Count" library="SeleniumLibrary">
+<var>${rows}</var>
+<arg>xpath=${home.tabela_xpath}/tbody/tr</arg>
+<doc>Returns the number of elements matching ``locator``.</doc>
+<msg timestamp="20230630 14:55:47.782" level="INFO">${rows} = 10</msg>
+<status status="PASS" starttime="20230630 14:55:47.747" endtime="20230630 14:55:47.782"/>
+</kw>
+<for flavor="IN RANGE">
+<var>${row_num}</var>
+<value>1</value>
+<value>${rows+1}</value>
+<iter>
+<var name="${row_num}">1</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Registro = ${row_num}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:55:47.786" endtime="20230630 14:55:47.788"/>
+</kw>
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20230630 14:55:47.788" endtime="20230630 14:55:47.828"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${colunas}</var>
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230630 14:55:47.831" level="INFO">${colunas} = xpath=/html/body/div[2]/main/div/div[2]/div/div[3]/table/tbody/tr[1]</msg>
+<status status="PASS" starttime="20230630 14:55:47.828" endtime="20230630 14:55:47.831"/>
+</kw>
+<kw name="Percorrer colunas da tabela" library="home_page">
+<arg>${colunas}</arg>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[1]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:47.892" level="INFO">${elemento_td} = BA</msg>
+<status status="PASS" starttime="20230630 14:55:47.832" endtime="20230630 14:55:47.893"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>UF = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:55:47.893" endtime="20230630 14:55:47.894"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[2]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:47.934" level="INFO">${elemento_td} = SALVADOR</msg>
+<status status="PASS" starttime="20230630 14:55:47.895" endtime="20230630 14:55:47.934"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>MUNICÍPIO = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:55:47.935" endtime="20230630 14:55:47.937"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[3]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:47.988" level="INFO">${elemento_td} = 7064284</msg>
+<status status="PASS" starttime="20230630 14:55:47.937" endtime="20230630 14:55:47.988"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>CNES = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:55:47.988" endtime="20230630 14:55:47.990"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[4]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:48.058" level="INFO">${elemento_td} = 20 20 SERVICOS MEDICOS BA</msg>
+<status status="PASS" starttime="20230630 14:55:47.991" endtime="20230630 14:55:48.058"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>NOME FANTASIA = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:55:48.059" endtime="20230630 14:55:48.061"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[5]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:48.132" level="INFO">${elemento_td} = ENTIDADES EMPRESARIAIS</msg>
+<status status="PASS" starttime="20230630 14:55:48.061" endtime="20230630 14:55:48.132"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>NATUREZA JURÍDICA (GRUPO) = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:55:48.132" endtime="20230630 14:55:48.134"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[6]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:48.206" level="INFO">${elemento_td} = E</msg>
+<status status="PASS" starttime="20230630 14:55:48.135" endtime="20230630 14:55:48.207"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>GESTÃO = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:55:48.208" endtime="20230630 14:55:48.210"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[7]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:48.290" level="INFO">${elemento_td} = SIM</msg>
+<status status="PASS" starttime="20230630 14:55:48.211" endtime="20230630 14:55:48.291"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>ATENDE SUS = ${elemento_td}\n</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:55:48.291" endtime="20230630 14:55:48.294"/>
+</kw>
+<status status="PASS" starttime="20230630 14:55:47.831" endtime="20230630 14:55:48.294"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td_cnes}</var>
+<arg>${colunas}/td[3]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:48.362" level="INFO">${elemento_td_cnes} = 7064284</msg>
+<status status="PASS" starttime="20230630 14:55:48.295" endtime="20230630 14:55:48.362"/>
+</kw>
+<kw name="Wait Until Element Is Enabled" library="SeleniumLibrary">
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]/td[8]/a</arg>
+<doc>Waits until the element ``locator`` is enabled.</doc>
+<status status="PASS" starttime="20230630 14:55:48.364" endtime="20230630 14:55:48.482"/>
+</kw>
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]/td[8]/a</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20230630 14:55:48.483" endtime="20230630 14:55:48.581"/>
+</kw>
+<kw name="Realizar o dowload da ficha" library="ficha_page">
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]/td[8]/a</arg>
+<arg>${elemento_td_cnes}</arg>
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>${btn_ficha}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:48.590" level="INFO">Clicking element 'xpath=/html/body/div[2]/main/div/div[2]/div/div[3]/table/tbody/tr[1]/td[8]/a'.</msg>
+<status status="PASS" starttime="20230630 14:55:48.586" endtime="20230630 14:55:50.754"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230630 14:55:55.756" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" starttime="20230630 14:55:50.754" endtime="20230630 14:55:55.756"/>
+</kw>
+<kw name="Selecionar impressora" library="ficha_page">
+<kw name="Click Link" library="SeleniumLibrary">
+<arg>xpath=${ficha.btn_impressora_xpath}</arg>
+<doc>Clicks a link identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:55.757" level="INFO">Clicking link 'xpath=/html/body/div[2]/main/div/div[3]/div[1]/header/nav/div/a'.</msg>
+<status status="PASS" starttime="20230630 14:55:55.756" endtime="20230630 14:55:55.828"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230630 14:55:58.829" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" starttime="20230630 14:55:55.828" endtime="20230630 14:55:58.829"/>
+</kw>
+<status status="PASS" starttime="20230630 14:55:55.756" endtime="20230630 14:55:58.829"/>
+</kw>
+<kw name="Selecionar ficha completa" library="ficha_page">
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>xpath=${ficha.checkbox_ficha_completa_xpath}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20230630 14:55:58.829" endtime="20230630 14:55:58.853"/>
+</kw>
+<kw name="Wait Until Element Is Enabled" library="SeleniumLibrary">
+<arg>xpath=${ficha.checkbox_ficha_completa_xpath}</arg>
+<doc>Waits until the element ``locator`` is enabled.</doc>
+<status status="PASS" starttime="20230630 14:55:58.853" endtime="20230630 14:55:58.876"/>
+</kw>
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>xpath=${ficha.checkbox_ficha_completa_xpath}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:55:58.877" level="INFO">Clicking element 'xpath=/html/body/div[2]/main/div/div[3]/div[3]/div/div/div/div/div[1]/div[2]/form/div/div[1]/div[1]/div/div/label/input'.</msg>
+<status status="PASS" starttime="20230630 14:55:58.877" endtime="20230630 14:55:58.932"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230630 14:56:01.933" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" starttime="20230630 14:55:58.932" endtime="20230630 14:56:01.933"/>
+</kw>
+<status status="PASS" starttime="20230630 14:55:58.829" endtime="20230630 14:56:01.933"/>
+</kw>
+<kw name="Imprimir ficha" library="ficha_page">
+<kw name="Wait Until Element Is Enabled" library="SeleniumLibrary">
+<arg>xpath=${ficha.btn_imprimir_xpath}</arg>
+<doc>Waits until the element ``locator`` is enabled.</doc>
+<status status="PASS" starttime="20230630 14:56:01.933" endtime="20230630 14:56:01.962"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>xpath=${ficha.btn_imprimir_xpath}</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:01.963" level="INFO">Clicking button 'xpath=/html/body/div[2]/main/div/div[3]/div[3]/div/div/div/div/div[2]/button[1]'.</msg>
+<status status="PASS" starttime="20230630 14:56:01.962" endtime="20230630 14:56:02.028"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230630 14:56:07.029" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" starttime="20230630 14:56:02.028" endtime="20230630 14:56:07.029"/>
+</kw>
+<status status="PASS" starttime="20230630 14:56:01.933" endtime="20230630 14:56:07.029"/>
+</kw>
+<kw name="Renomear arquivo" library="ficha_page">
+<arg>${cnes}</arg>
+<kw name="Renomear Download" library="helpers">
+<arg>${cnes}</arg>
+<status status="PASS" starttime="20230630 14:56:07.030" endtime="20230630 14:56:07.031"/>
+</kw>
+<status status="PASS" starttime="20230630 14:56:07.029" endtime="20230630 14:56:07.031"/>
+</kw>
+<kw name="Retornar para a tabela" library="ficha_page">
+<kw name="Go Back" library="SeleniumLibrary">
+<doc>Simulates the user clicking the back button on their browser.</doc>
+<status status="PASS" starttime="20230630 14:56:07.031" endtime="20230630 14:56:07.049"/>
+</kw>
+<kw name="Go Back" library="SeleniumLibrary">
+<doc>Simulates the user clicking the back button on their browser.</doc>
+<status status="PASS" starttime="20230630 14:56:07.050" endtime="20230630 14:56:07.066"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230630 14:56:10.068" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" starttime="20230630 14:56:07.066" endtime="20230630 14:56:10.068"/>
+</kw>
+<status status="PASS" starttime="20230630 14:56:07.031" endtime="20230630 14:56:10.068"/>
+</kw>
+<status status="PASS" starttime="20230630 14:55:48.582" endtime="20230630 14:56:10.068"/>
+</kw>
+<status status="PASS" starttime="20230630 14:55:47.785" endtime="20230630 14:56:10.068"/>
+</iter>
+<iter>
+<var name="${row_num}">2</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Registro = ${row_num}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:10.068" endtime="20230630 14:56:10.069"/>
+</kw>
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20230630 14:56:10.069" endtime="20230630 14:56:10.092"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${colunas}</var>
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230630 14:56:10.093" level="INFO">${colunas} = xpath=/html/body/div[2]/main/div/div[2]/div/div[3]/table/tbody/tr[2]</msg>
+<status status="PASS" starttime="20230630 14:56:10.093" endtime="20230630 14:56:10.093"/>
+</kw>
+<kw name="Percorrer colunas da tabela" library="home_page">
+<arg>${colunas}</arg>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[1]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:10.113" level="INFO">${elemento_td} = BA</msg>
+<status status="PASS" starttime="20230630 14:56:10.094" endtime="20230630 14:56:10.114"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>UF = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:10.114" endtime="20230630 14:56:10.114"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[2]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:10.135" level="INFO">${elemento_td} = SALVADOR</msg>
+<status status="PASS" starttime="20230630 14:56:10.115" endtime="20230630 14:56:10.135"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>MUNICÍPIO = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:10.135" endtime="20230630 14:56:10.136"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[3]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:10.154" level="INFO">${elemento_td} = 9077715</msg>
+<status status="PASS" starttime="20230630 14:56:10.136" endtime="20230630 14:56:10.154"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>CNES = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:10.154" endtime="20230630 14:56:10.155"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[4]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:10.173" level="INFO">${elemento_td} = 3D DENT</msg>
+<status status="PASS" starttime="20230630 14:56:10.155" endtime="20230630 14:56:10.173"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>NOME FANTASIA = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:10.173" endtime="20230630 14:56:10.174"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[5]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:10.193" level="INFO">${elemento_td} = ENTIDADES EMPRESARIAIS</msg>
+<status status="PASS" starttime="20230630 14:56:10.174" endtime="20230630 14:56:10.193"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>NATUREZA JURÍDICA (GRUPO) = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:10.193" endtime="20230630 14:56:10.193"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[6]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:10.212" level="INFO">${elemento_td} = M</msg>
+<status status="PASS" starttime="20230630 14:56:10.194" endtime="20230630 14:56:10.212"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>GESTÃO = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:10.213" endtime="20230630 14:56:10.213"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[7]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:10.233" level="INFO">${elemento_td} = NÃO</msg>
+<status status="PASS" starttime="20230630 14:56:10.213" endtime="20230630 14:56:10.233"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>ATENDE SUS = ${elemento_td}\n</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:10.233" endtime="20230630 14:56:10.234"/>
+</kw>
+<status status="PASS" starttime="20230630 14:56:10.094" endtime="20230630 14:56:10.234"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td_cnes}</var>
+<arg>${colunas}/td[3]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:10.252" level="INFO">${elemento_td_cnes} = 9077715</msg>
+<status status="PASS" starttime="20230630 14:56:10.234" endtime="20230630 14:56:10.252"/>
+</kw>
+<kw name="Wait Until Element Is Enabled" library="SeleniumLibrary">
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]/td[8]/a</arg>
+<doc>Waits until the element ``locator`` is enabled.</doc>
+<status status="PASS" starttime="20230630 14:56:10.252" endtime="20230630 14:56:10.279"/>
+</kw>
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]/td[8]/a</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20230630 14:56:10.280" endtime="20230630 14:56:10.296"/>
+</kw>
+<kw name="Realizar o dowload da ficha" library="ficha_page">
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]/td[8]/a</arg>
+<arg>${elemento_td_cnes}</arg>
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>${btn_ficha}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:10.298" level="INFO">Clicking element 'xpath=/html/body/div[2]/main/div/div[2]/div/div[3]/table/tbody/tr[2]/td[8]/a'.</msg>
+<status status="PASS" starttime="20230630 14:56:10.297" endtime="20230630 14:56:10.597"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230630 14:56:15.598" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" starttime="20230630 14:56:10.597" endtime="20230630 14:56:15.598"/>
+</kw>
+<kw name="Selecionar impressora" library="ficha_page">
+<kw name="Click Link" library="SeleniumLibrary">
+<arg>xpath=${ficha.btn_impressora_xpath}</arg>
+<doc>Clicks a link identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:15.599" level="INFO">Clicking link 'xpath=/html/body/div[2]/main/div/div[3]/div[1]/header/nav/div/a'.</msg>
+<status status="PASS" starttime="20230630 14:56:15.598" endtime="20230630 14:56:15.647"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230630 14:56:18.648" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" starttime="20230630 14:56:15.647" endtime="20230630 14:56:18.648"/>
+</kw>
+<status status="PASS" starttime="20230630 14:56:15.598" endtime="20230630 14:56:18.648"/>
+</kw>
+<kw name="Selecionar ficha completa" library="ficha_page">
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>xpath=${ficha.checkbox_ficha_completa_xpath}</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20230630 14:56:18.648" endtime="20230630 14:56:18.670"/>
+</kw>
+<kw name="Wait Until Element Is Enabled" library="SeleniumLibrary">
+<arg>xpath=${ficha.checkbox_ficha_completa_xpath}</arg>
+<doc>Waits until the element ``locator`` is enabled.</doc>
+<status status="PASS" starttime="20230630 14:56:18.670" endtime="20230630 14:56:18.695"/>
+</kw>
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>xpath=${ficha.checkbox_ficha_completa_xpath}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:18.697" level="INFO">Clicking element 'xpath=/html/body/div[2]/main/div/div[3]/div[3]/div/div/div/div/div[1]/div[2]/form/div/div[1]/div[1]/div/div/label/input'.</msg>
+<status status="PASS" starttime="20230630 14:56:18.696" endtime="20230630 14:56:18.743"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230630 14:56:21.743" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" starttime="20230630 14:56:18.743" endtime="20230630 14:56:21.743"/>
+</kw>
+<status status="PASS" starttime="20230630 14:56:18.648" endtime="20230630 14:56:21.743"/>
+</kw>
+<kw name="Imprimir ficha" library="ficha_page">
+<kw name="Wait Until Element Is Enabled" library="SeleniumLibrary">
+<arg>xpath=${ficha.btn_imprimir_xpath}</arg>
+<doc>Waits until the element ``locator`` is enabled.</doc>
+<status status="PASS" starttime="20230630 14:56:21.744" endtime="20230630 14:56:21.770"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>xpath=${ficha.btn_imprimir_xpath}</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:21.772" level="INFO">Clicking button 'xpath=/html/body/div[2]/main/div/div[3]/div[3]/div/div/div/div/div[2]/button[1]'.</msg>
+<status status="PASS" starttime="20230630 14:56:21.771" endtime="20230630 14:56:21.833"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230630 14:56:26.836" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" starttime="20230630 14:56:21.834" endtime="20230630 14:56:26.836"/>
+</kw>
+<status status="PASS" starttime="20230630 14:56:21.744" endtime="20230630 14:56:26.836"/>
+</kw>
+<kw name="Renomear arquivo" library="ficha_page">
+<arg>${cnes}</arg>
+<kw name="Renomear Download" library="helpers">
+<arg>${cnes}</arg>
+<status status="PASS" starttime="20230630 14:56:26.836" endtime="20230630 14:56:26.838"/>
+</kw>
+<status status="PASS" starttime="20230630 14:56:26.836" endtime="20230630 14:56:26.838"/>
+</kw>
+<kw name="Retornar para a tabela" library="ficha_page">
+<kw name="Go Back" library="SeleniumLibrary">
+<doc>Simulates the user clicking the back button on their browser.</doc>
+<status status="PASS" starttime="20230630 14:56:26.838" endtime="20230630 14:56:26.856"/>
+</kw>
+<kw name="Go Back" library="SeleniumLibrary">
+<doc>Simulates the user clicking the back button on their browser.</doc>
+<status status="PASS" starttime="20230630 14:56:26.856" endtime="20230630 14:56:26.884"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230630 14:56:29.886" level="INFO">Slept 3 seconds</msg>
+<status status="PASS" starttime="20230630 14:56:26.885" endtime="20230630 14:56:29.886"/>
+</kw>
+<status status="PASS" starttime="20230630 14:56:26.838" endtime="20230630 14:56:29.886"/>
+</kw>
+<status status="PASS" starttime="20230630 14:56:10.296" endtime="20230630 14:56:29.886"/>
+</kw>
+<status status="PASS" starttime="20230630 14:56:10.068" endtime="20230630 14:56:29.886"/>
+</iter>
+<iter>
+<var name="${row_num}">3</var>
+<kw name="Log To Console" library="BuiltIn">
+<arg>Registro = ${row_num}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:29.887" endtime="20230630 14:56:29.887"/>
+</kw>
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20230630 14:56:29.887" endtime="20230630 14:56:29.912"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${colunas}</var>
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20230630 14:56:29.913" level="INFO">${colunas} = xpath=/html/body/div[2]/main/div/div[2]/div/div[3]/table/tbody/tr[3]</msg>
+<status status="PASS" starttime="20230630 14:56:29.912" endtime="20230630 14:56:29.913"/>
+</kw>
+<kw name="Percorrer colunas da tabela" library="home_page">
+<arg>${colunas}</arg>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[1]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:29.936" level="INFO">${elemento_td} = BA</msg>
+<status status="PASS" starttime="20230630 14:56:29.914" endtime="20230630 14:56:29.936"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>UF = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:29.936" endtime="20230630 14:56:29.936"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[2]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:29.957" level="INFO">${elemento_td} = SALVADOR</msg>
+<status status="PASS" starttime="20230630 14:56:29.937" endtime="20230630 14:56:29.957"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>MUNICÍPIO = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:29.957" endtime="20230630 14:56:29.958"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[3]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:29.978" level="INFO">${elemento_td} = 1084186</msg>
+<status status="PASS" starttime="20230630 14:56:29.958" endtime="20230630 14:56:29.978"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>CNES = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:29.978" endtime="20230630 14:56:29.979"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[4]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:30.000" level="INFO">${elemento_td} = 4BODY BARRA</msg>
+<status status="PASS" starttime="20230630 14:56:29.979" endtime="20230630 14:56:30.000"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>NOME FANTASIA = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:30.001" endtime="20230630 14:56:30.001"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[5]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:30.022" level="INFO">${elemento_td} = ENTIDADES EMPRESARIAIS</msg>
+<status status="PASS" starttime="20230630 14:56:30.001" endtime="20230630 14:56:30.022"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>NATUREZA JURÍDICA (GRUPO) = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:30.022" endtime="20230630 14:56:30.023"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[6]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:30.046" level="INFO">${elemento_td} = M</msg>
+<status status="PASS" starttime="20230630 14:56:30.023" endtime="20230630 14:56:30.047"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>GESTÃO = ${elemento_td}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:30.047" endtime="20230630 14:56:30.048"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td}</var>
+<arg>${colunas}/td[7]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:30.069" level="INFO">${elemento_td} = NÃO</msg>
+<status status="PASS" starttime="20230630 14:56:30.048" endtime="20230630 14:56:30.069"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>ATENDE SUS = ${elemento_td}\n</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20230630 14:56:30.069" endtime="20230630 14:56:30.070"/>
+</kw>
+<status status="PASS" starttime="20230630 14:56:29.913" endtime="20230630 14:56:30.070"/>
+</kw>
+<kw name="Get Text" library="SeleniumLibrary">
+<var>${elemento_td_cnes}</var>
+<arg>${colunas}/td[3]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:30.087" level="INFO">${elemento_td_cnes} = 1084186</msg>
+<status status="PASS" starttime="20230630 14:56:30.070" endtime="20230630 14:56:30.087"/>
+</kw>
+<kw name="Wait Until Element Is Enabled" library="SeleniumLibrary">
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]/td[8]/a</arg>
+<doc>Waits until the element ``locator`` is enabled.</doc>
+<status status="PASS" starttime="20230630 14:56:30.087" endtime="20230630 14:56:30.117"/>
+</kw>
+<kw name="Wait Until Element Is Visible" library="SeleniumLibrary">
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]/td[8]/a</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" starttime="20230630 14:56:30.117" endtime="20230630 14:56:30.135"/>
+</kw>
+<kw name="Realizar o dowload da ficha" library="ficha_page">
+<arg>xpath=${home.tabela_xpath}/tbody/tr[${row_num}]/td[8]/a</arg>
+<arg>${elemento_td_cnes}</arg>
+<kw name="Click Element" library="SeleniumLibrary">
+<arg>${btn_ficha}</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:30.137" level="INFO">Clicking element 'xpath=/html/body/div[2]/main/div/div[2]/div/div[3]/table/tbody/tr[3]/td[8]/a'.</msg>
+<status status="PASS" starttime="20230630 14:56:30.136" endtime="20230630 14:56:30.442"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>5s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<msg timestamp="20230630 14:56:35.443" level="INFO">Slept 5 seconds</msg>
+<status status="PASS" starttime="20230630 14:56:30.442" endtime="20230630 14:56:35.443"/>
+</kw>
+<kw name="Selecionar impressora" library="ficha_page">
+<kw name="Click Link" library="SeleniumLibrary">
+<arg>xpath=${ficha.btn_impressora_xpath}</arg>
+<doc>Clicks a link identified by ``locator``.</doc>
+<msg timestamp="20230630 14:56:35.444" level="INFO">Clicking link 'xpath=/html/body/div[2]/main/div/div[3]/div[1]/header/nav/div/a'.</msg>
+<status status="PASS" starttime="20230630 14:56:35.443" endtime="20230630 14:56:35.507"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="FAIL" starttime="20230630 14:56:35.508" endtime="20230630 14:56:36.502"/>
+</kw>
+<status status="FAIL" starttime="20230630 14:56:35.443" endtime="20230630 14:56:36.502"/>
+</kw>
+<kw name="Selecionar ficha completa" library="ficha_page">
+<status status="NOT RUN" starttime="20230630 14:56:36.503" endtime="20230630 14:56:36.503"/>
+</kw>
+<kw name="Imprimir ficha" library="ficha_page">
+<status status="NOT RUN" starttime="20230630 14:56:36.503" endtime="20230630 14:56:36.503"/>
+</kw>
+<kw name="Renomear arquivo" library="ficha_page">
+<arg>${cnes}</arg>
+<status status="NOT RUN" starttime="20230630 14:56:36.503" endtime="20230630 14:56:36.503"/>
+</kw>
+<kw name="Retornar para a tabela" library="ficha_page">
+<status status="NOT RUN" starttime="20230630 14:56:36.503" endtime="20230630 14:56:36.503"/>
+</kw>
+<status status="FAIL" starttime="20230630 14:56:30.135" endtime="20230630 14:56:36.503"/>
+</kw>
+<status status="FAIL" starttime="20230630 14:56:29.886" endtime="20230630 14:56:36.504"/>
+</iter>
+<status status="FAIL" starttime="20230630 14:55:47.783" endtime="20230630 14:56:36.504"/>
+</for>
+<status status="FAIL" starttime="20230630 14:55:47.717" endtime="20230630 14:56:36.504"/>
+</kw>
+<kw name="Ir para a próxima página" library="home_page">
+<status status="NOT RUN" starttime="20230630 14:56:36.504" endtime="20230630 14:56:36.504"/>
+</kw>
+<kw name="Sleep" library="BuiltIn">
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" starttime="20230630 14:56:36.504" endtime="20230630 14:56:36.504"/>
+</kw>
+<status status="FAIL" starttime="20230630 14:55:47.717" endtime="20230630 14:56:36.504"/>
+</iter>
+<status status="FAIL" starttime="20230630 14:55:47.717" endtime="20230630 14:56:36.504"/>
+</for>
+<status status="FAIL" starttime="20230630 14:55:33.336" endtime="20230630 14:56:36.504"/>
+</kw>
+<status status="FAIL" starttime="20230630 14:55:33.305" endtime="20230630 14:56:36.504"/>
+</iter>
+<status status="FAIL" starttime="20230630 14:55:33.304" endtime="20230630 14:56:36.504"/>
+</for>
+<kw name="Fechar o site" library="home_page">
+<status status="NOT RUN" starttime="20230630 14:56:36.504" endtime="20230630 14:56:36.504"/>
+</kw>
+<status status="FAIL" starttime="20230630 14:55:33.294" endtime="20230630 14:56:36.504"/>
+</kw>
+<status status="FAIL" starttime="20230630 14:55:21.383" endtime="20230630 14:56:36.507">Execution terminated by signal</status>
+</test>
+<status status="FAIL" starttime="20230630 14:55:20.797" endtime="20230630 14:56:36.511"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="Home">Home</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
