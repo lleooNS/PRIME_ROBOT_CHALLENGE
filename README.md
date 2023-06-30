@@ -24,7 +24,7 @@ que forem necessárias, isolando do sistema operacional.
 * Excutar o comando abaixo para instalar todas as bibliotecas e dependências:
 
 ```{python}
-pip install -r .\configs\requeriments.txt
+pip install -r .\configs\requirements.txt
 ```
 
 ### EXECUÇÃO
